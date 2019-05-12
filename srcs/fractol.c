@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:17:01 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/12 18:06:48 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/12 21:12:00 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 void			set_default(t_values *values)
 {
-	values->scale = 1;
-	values->offx = 0;
-	values->offy = 0;
-	values->iter = 30;
+	values->stats.scale = 1;
+	values->stats.offx = 0;
+	values->stats.offy = 0;
+	values->stats.offxl = 745;
+	values->stats.offyl = 683;
+	values->stats.iter = 70;
 }
 
 t_values		*initialize()
@@ -41,6 +43,7 @@ t_values		*initialize()
 void			draw(t_values *values)
 {
 	opencl_calc(values);
+	mlx_clear_window(values->mlx_ptr, values->win_ptr);
 	mlx_put_image_to_window(values->mlx_ptr, values->win_ptr,
 		values->img_ptr, 0, 0);
 }

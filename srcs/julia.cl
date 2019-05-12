@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   julia.cl                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "struct.h"
 
-__kernel	void	mandelbrot(__global t_stats *stats, __global int *color)
+__kernel	void	calc_fractal(__global t_stats *stats, __global int *color)
 {
 	int i = get_global_id(0);
 	double	ix = i % WIDTH;
@@ -27,12 +27,12 @@ __kernel	void	mandelbrot(__global t_stats *stats, __global int *color)
 	{
 		if ((sqrt((x * x) + (y * y))) >= MODULE)
 		{
-			color[i] = j * 98765432;
+			color[i] = (int)(j  * 255 / stats->iter);
 			return ;
 		}
 		tmp = x;
-		x = (x * x) - (y * y) + cx;
-		y = 2 * tmp * y + cy;
+		x = (x * x) - (y * y) + (double)stats->offxl / WIDTH;
+		y = 2 * tmp * y + (double)stats->offyl / HEIGHT;
 	}
 	color[i] = 0;
 }

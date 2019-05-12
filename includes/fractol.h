@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:18:48 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/12 18:09:59 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/12 19:17:52 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,13 @@
 # include <mlx.h>
 # include <unistd.h>
 # include <OpenCL/opencl.h>
+# include "struct.h"
 
 # define WIDTH 2560
 # define HEIGHT 1410
 # define WIN_NAME "fract'ol"
 # define MODULE 10
 # define SCALE 1.1
-
-
-typedef	struct			s_mouse
-{
-	int					x;
-	int					y;
-	int					button;
-	int					offx;
-	int					offy;
-}						t_mouse;
 
 typedef	struct			s_opencl
 {
@@ -43,17 +34,13 @@ typedef	struct			s_opencl
 	cl_uint				ret_num_platforms;
 	cl_context			context;
 	cl_command_queue	command_queue;
-	cl_mem				c_mem_obj;
-	cl_mem				i_mem_obj;
-	cl_mem				offx_mem_obj;
-	cl_mem				offy_mem_obj;
 	cl_mem				s_mem_obj;
+	cl_mem				c_mem_obj;
 	cl_program			program;
 	cl_kernel			kernel;
 	size_t				size;
 
 }						t_opencl;
-
 
 typedef struct			s_values
 {
@@ -64,12 +51,8 @@ typedef struct			s_values
 	int					bits_per_pixel;
 	int					size_line;
 	int					endian;
-	long int			offx;
-	long int			offy;
-	double				scale;
-	double				iter;
-	t_mouse				mouse;
 	t_opencl			cl;
+	t_stats				stats;
 }						t_values;
 
 int				mouse_press(int	button, int x, int y, void				*param);
