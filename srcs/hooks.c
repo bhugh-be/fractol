@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 19:37:34 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/12 21:12:56 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/13 14:23:58 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ int				mouse_press(int	button, int x, int y, void *param)
 		values->stats.scale *= SCALE;
 		values->stats.offx += (x - (WIDTH / 2) + values->stats.offx) * (SCALE - 1);
 		values->stats.offy += (y - (HEIGHT / 2) + values->stats.offy) * (SCALE - 1);
-		values->stats.iter += 0.3;
+		values->stats.iter += (values->stats.iter > MAX_ITER) ? (0) : (0.3);
 	}
 	if (button == 5)
 	{
 		values->stats.scale *= 2 - SCALE;
 		values->stats.offx -= (x - (WIDTH / 2) + values->stats.offx) * (SCALE - 1);
 		values->stats.offy -= (y - (HEIGHT / 2) + values->stats.offy) * (SCALE - 1);
-		values->stats.iter -= 0.3;
+		values->stats.iter -= (values->stats.iter < 1) ? (0) : (0.3);
 	}
 	draw(values);
 	return (0);

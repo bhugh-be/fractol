@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:18:48 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/12 19:17:52 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/14 14:57:52 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <OpenCL/opencl.h>
 # include "struct.h"
 
-# define WIDTH 2560
-# define HEIGHT 1410
 # define WIN_NAME "fract'ol"
 # define MODULE 10
 # define SCALE 1.1
@@ -38,7 +36,8 @@ typedef	struct			s_opencl
 	cl_mem				c_mem_obj;
 	cl_program			program;
 	cl_kernel			kernel;
-	size_t				size;
+	size_t				source_size;
+	char				*source_str;
 
 }						t_opencl;
 
@@ -51,6 +50,7 @@ typedef struct			s_values
 	int					bits_per_pixel;
 	int					size_line;
 	int					endian;
+	int					fd;
 	t_opencl			cl;
 	t_stats				stats;
 }						t_values;

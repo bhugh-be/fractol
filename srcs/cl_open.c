@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 17:19:55 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/12 21:40:52 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/14 17:03:34 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,18 @@
 
 #define MAX_SRC_SIZE 100000
 
-char		*get_source(size_t *source_size)
+void		get_source(t_values *values)
 {
-	int fd;
-	char	*source_str;
-
-	fd = open("srcs/julia.cl", O_RDONLY);
-	if (fd == -1)
-		ft_die("kernel is huita");
-	source_str = (char *)malloc(MAX_SRC_SIZE);
-	*source_size = read(fd, source_str, MAX_SRC_SIZE);
-	close(fd);
-	return (source_str);
+	values->cl.source_str = (char *)malloc(MAX_SRC_SIZE);
+	values->cl.source_size = read(values->fd, values->cl.source_str, MAX_SRC_SIZE);
+	close(values->fd);
 }
 
 void		opencl_init(t_values *values)
 {
-	size_t	source_size;
-	char	*source_str;
 	cl_int	ret;
 
-	source_str = get_source(&source_size);
+	get_source(values);
 	ret = clGetPlatformIDs(1, &values->cl.platform_id, &values->cl.ret_num_platforms);
 	printf("1:%d\n", ret);
 	ret = clGetDeviceIDs(values->cl.platform_id, CL_DEVICE_TYPE_GPU, 1, &values->cl.device_id, &values->cl.ret_num_devices);
@@ -49,7 +40,7 @@ void		opencl_init(t_values *values)
 	values->cl.c_mem_obj = clCreateBuffer(values->cl.context, CL_MEM_WRITE_ONLY, (WIDTH * HEIGHT) * sizeof(int), NULL, &ret);
 	printf("13:%d\n", ret);
 	values->cl.program = clCreateProgramWithSource(values->cl.context, 1,
-	   (const char **)&source_str, (const size_t *)&source_size, &ret);
+	   (const char **)&values->cl.source_str, (const size_t *)&values->cl.source_size, &ret);
 	printf("8:%d\n", ret);
 	ret = clBuildProgram(values->cl.program, 1, &values->cl.device_id, "-I includes/", NULL, NULL);
 	printf("9:%d\n", ret);

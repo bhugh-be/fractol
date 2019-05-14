@@ -12,7 +12,17 @@
 
 #include "struct.h"
 
-__kernel	void	mandelbrot(__global t_stats *stats, __global int *color)
+int			get_light(int start, int end, double percent)
+{
+	return ((int)((1 - percent) * start + percent * end));
+}
+
+double		fpart(double n)
+{
+	return (n - floor(n));
+}
+
+__kernel	void	calc_fractal(__global t_stats *stats, __global int *color)
 {
 	int i = get_global_id(0);
 	double	ix = i % WIDTH;
@@ -22,17 +32,33 @@ __kernel	void	mandelbrot(__global t_stats *stats, __global int *color)
 	double	x = cx;
 	double	y = cy;
 	double	tmp;
+	double	log_zn;
+	double	nu;
+	int		color1;
+	int		color2;
 
-	for (int j = 0; j < stats->iter; ++j)
+	for (double j = 0; j < stats->iter; ++j)
 	{
 		if ((sqrt((x * x) + (y * y))) >= MODULE)
 		{
-			color[i] = j * 98765432;
+			log_zn = log(x * x + y * y) / 2;
+			nu = log(log_zn / log(2.0)) / log(2.0);
+			j = j + 1 - nu;
+			color1 = stats->colors[(int)floor(j)];
+			color2 = stats->colors[(int)floor(j) + 1];
+			int blue = get_light(color1 & 255, color2 & 255, fpart(j));
+			int green = get_light(color1 >> 8 & 255, color2 >> 8 & 255, fpart(j));
+			int red = get_light(color1 >> 16 & 255, color2 >> 16 & 255, fpart(j));
+			color[i] = (red << 16) | (green << 8) | blue;
 			return ;
 		}
 		tmp = x;
-		x = (x * x) - (y * y) + cx;
-		y = 2 * tmp * y + cy;
+		// x = (x * x) - (y * y) + cx;
+		// y = 2 * tmp * y + cy;
+		x = (x * x * x * x) - 6 * (x * x) * (y * y) + (y * y * y * y) + cx;
+		y = 4 * (tmp * tmp * tmp) * y - 4 * tmp * (y * y * y) + cy;
+		// x = (x * x * x * x) - 6 * (x * x) * (y * y) + (y * y * y * y) + cx;
+		// y = 4 * (x * x * x) * y - 4 * x * (y * y * y) + cy;
 	}
 	color[i] = 0;
 }

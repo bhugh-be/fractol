@@ -6,7 +6,7 @@
 #    By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/24 17:26:57 by bhugh-be          #+#    #+#              #
-#    Updated: 2019/05/08 23:03:19 by bhugh-be         ###   ########.fr        #
+#    Updated: 2019/05/13 19:30:42 by bhugh-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ LIB = ./libft/libft.a
 
 SRC  =	fractol.c\
 		hooks.c\
-		mandelbrot.c\
 		cl_open.c\
 
 

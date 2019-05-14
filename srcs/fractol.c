@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:17:01 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/12 21:12:00 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/14 17:04:35 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ void			set_default(t_values *values)
 	values->stats.offy = 0;
 	values->stats.offxl = 745;
 	values->stats.offyl = 683;
-	values->stats.iter = 70;
+	values->stats.iter = 30;
 }
 
 t_values		*initialize()
 {
 	t_values	*values;
+	int			i;
 
 	values = (t_values *)ft_memalloc(sizeof(t_values));
 	values->mlx_ptr = mlx_init();
@@ -37,6 +38,15 @@ t_values		*initialize()
 	mlx_hook(values->win_ptr, 5, 0, mouse_release, values);
 	mlx_hook(values->win_ptr, 6, 0, mouse_move, values);
 	mlx_hook(values->win_ptr, 17, 0, close_win, values);
+	i = 0;
+	while (i < 997)
+	{
+		values->stats.colors[i + 0] = 0x1B032C;
+		values->stats.colors[i + 1] = 0xEBEB7D;
+		values->stats.colors[i + 2] = 0x3F576D;
+		// values->stats.colors[i + 3] = 0xD3BE9F;
+		i += 3;
+	}
 	return (values);
 }
 
@@ -51,9 +61,15 @@ void			draw(t_values *values)
 int			main(int ac, char **av)
 {
 	t_values	*values;
-	(void)ac;
-	(void)av;
+	char		*path;
+
+	if (ac != 2)
+		ft_die("usage: fractol mandelbrot | julia");
+	path = ft_strjoin("srcs/", av[1], 0);
+	path = ft_strjoin(path, ".cl", 1);
 	values = initialize();
+	if ((values->fd = open(path, O_RDONLY)) == -1)
+		ft_die("fractal is huita");
 	opencl_init(values);
 	set_default(values);
 	draw(values);
