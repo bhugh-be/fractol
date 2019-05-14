@@ -22,6 +22,29 @@ double		fpart(double n)
 	return (n - floor(n));
 }
 
+int		gradient_color(__global t_stats *stats, double x, double y, double i)
+{
+	double	log_zn;
+	double	nu;
+	int		color1;
+	int		color2;
+
+	log_zn = log(x * x + y * y) / 2;
+	nu = log(log_zn / log(2.0)) / log(2.0);
+	i = i + 1 - nu;
+	color1 = stats->colors[(int)floor(i)];
+	color2 = stats->colors[(int)floor(i) + 1];
+	int blue = get_light(color1 & 255, color2 & 255, fpart(i));
+	int green = get_light(color1 >> 8 & 255, color2 >> 8 & 255, fpart(i));
+	int red = get_light(color1 >> 16 & 255, color2 >> 16 & 255, fpart(i));
+	return((red << 16) | (green << 8) | blue);
+}
+
+int			light_color(__global t_stats *stats, double i)
+{
+	return ((i / stats->iter) * 255);
+}
+
 int			get_color(__global t_stats *stats, double ix, double iy)
 {
 	double	cx = 1.5 * ((ix + stats->offx) / (WIDTH / 2) - 1.0) / stats->scale;
@@ -29,24 +52,17 @@ int			get_color(__global t_stats *stats, double ix, double iy)
 	double	x = cx;
 	double	y = cy;
 	double	tmp;
-	double	log_zn;
-	double	nu;
-	int		color1;
-	int		color2;
 
-	for (double j = 0; j < stats->iter; ++j)
+	for (double i = 0; i < stats->iter; ++i)
 	{
 		if ((sqrt((x * x) + (y * y))) >= MODULE)
 		{
-			log_zn = log(x * x + y * y) / 2;
-			nu = log(log_zn / log(2.0)) / log(2.0);
-			j = j + 1 - nu;
-			color1 = stats->colors[(int)floor(j)];
-			color2 = stats->colors[(int)floor(j) + 1];
-			int blue = get_light(color1 & 255, color2 & 255, fpart(j));
-			int green = get_light(color1 >> 8 & 255, color2 >> 8 & 255, fpart(j));
-			int red = get_light(color1 >> 16 & 255, color2 >> 16 & 255, fpart(j));
-			return((red << 16) | (green << 8) | blue);
+			if (stats->color == 1)
+				return (0xffffff);
+			if (stats->color == 2)
+				return (light_color(stats, i));
+			if (stats->color == 3)
+				return (gradient_color(stats, x, y, i));
 		}
 		tmp = x;
 		x = (x * x) - (y * y) + cx;
@@ -67,6 +83,11 @@ __kernel	void	calc_fractal(__global t_stats *stats, __global int *color)
 	int		blue = 0;
 	int		c;
 
+	if (stats->smooth)
+	{
+		color[i] = get_color(stats, ix, iy);
+		return ;
+	}
 	c = get_color(stats, ix, iy);
 	red += c >> 16 & 255;
 	green += c >> 8 & 255;

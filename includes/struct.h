@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/12 19:01:51 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/14 19:23:43 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/14 21:59:11 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ typedef	struct			s_stats
 	double				scale;
 	double				iter;
 	int					colors[1000];
+	int					color;
+	int					smooth;
+
 	t_mouse				mouse;
 }						t_stats;
 

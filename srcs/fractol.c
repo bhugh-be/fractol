@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:17:01 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/14 19:24:33 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/14 21:51:16 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void			set_default(t_values *values)
 	values->stats.offxl = 745;
 	values->stats.offyl = 683;
 	values->stats.iter = 30;
+	values->stats.color = 1;
 }
 
 t_values		*initialize()

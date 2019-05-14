@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 19:37:34 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/13 14:23:58 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/14 22:00:59 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,14 @@ int				key_press(int keycode, void *param)
 		values->stats.iter++;
 	if (keycode == 27)
 		values->stats.iter--;
+	if (keycode == 18)
+		values->stats.color = 1;
+	if (keycode == 19)
+		values->stats.color = 2;
+	if (keycode == 20)
+		values->stats.color = 3;
+	if (keycode == 49)
+		values->stats.smooth = (values->stats.smooth) ? (0) : (1);
 	draw(values);
 	return (0);
 }
