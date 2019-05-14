@@ -22,8 +22,11 @@ double		fpart(double n)
 	return (n - floor(n));
 }
 
-int			get_color(__global t_stats *stats, double ix, double iy)
+__kernel	void	calc_fractal(__global t_stats *stats, __global int *color)
 {
+	int i = get_global_id(0);
+	double	ix = i % WIDTH;
+	double	iy = i / WIDTH;
 	double	cx = 1.5 * ((ix + stats->offx) / (WIDTH / 2) - 1.0) / stats->scale;
 	double 	cy = ((iy + stats->offy) / (HEIGHT / 2) - 1.0) / stats->scale;
 	double	x = cx;
@@ -46,45 +49,16 @@ int			get_color(__global t_stats *stats, double ix, double iy)
 			int blue = get_light(color1 & 255, color2 & 255, fpart(j));
 			int green = get_light(color1 >> 8 & 255, color2 >> 8 & 255, fpart(j));
 			int red = get_light(color1 >> 16 & 255, color2 >> 16 & 255, fpart(j));
-			return((red << 16) | (green << 8) | blue);
+			color[i] = (red << 16) | (green << 8) | blue;
+			return ;
 		}
 		tmp = x;
-		x = (x * x) - (y * y) + cx;
-		y = 2 * tmp * y + cy;
+		// x = (x * x) - (y * y) + cx;
+		// y = 2 * tmp * y + cy;
 		// x = (x * x * x * x) - 6 * (x * x) * (y * y) + (y * y * y * y) + cx;
 		// y = 4 * (tmp * tmp * tmp) * y - 4 * tmp * (y * y * y) + cy;
+		x = (x * x * x * x) - 6 * (x * x) * (y * y) + (y * y * y * y) + cx;
+		y = 4 * (x * x * x) * y - 4 * x * (y * y * y) + cy;
 	}
-	return(0);
-}
-
-__kernel	void	calc_fractal(__global t_stats *stats, __global int *color)
-{
-	int i = get_global_id(0);
-	double	ix = (i % WIDTH);
-	double	iy = (i / WIDTH);
-	int		red = 0;
-	int		green = 0;
-	int		blue = 0;
-	int		c;
-
-	c = get_color(stats, ix, iy);
-	red += c >> 16 & 255;
-	green += c >> 8 & 255;
-	blue += c & 255;
-	c = get_color(stats, ix + 0.5, iy);
-	red += c >> 16 & 255;
-	green += c >> 8 & 255;
-	blue += c & 255;
-	c = get_color(stats, ix, iy + 0.5);
-	red += c >> 16 & 255;
-	green += c >> 8 & 255;
-	blue += c & 255;
-	c = get_color(stats, ix + 0.5, iy + 0.5);
-	red += c >> 16 & 255;
-	green += c >> 8 & 255;
-	blue += c & 255;
-	red /= 4;
-	green /= 4;
-	blue /= 4;
-	color[i] = (red << 16) | (green << 8) | blue;
+	color[i] = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:17:01 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/14 17:04:35 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/14 19:24:33 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_values		*initialize()
 	mlx_hook(values->win_ptr, 6, 0, mouse_move, values);
 	mlx_hook(values->win_ptr, 17, 0, close_win, values);
 	i = 0;
-	while (i < 997)
+	while (i < 999)
 	{
 		values->stats.colors[i + 0] = 0x1B032C;
 		values->stats.colors[i + 1] = 0xEBEB7D;

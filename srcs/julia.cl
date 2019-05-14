@@ -79,10 +79,10 @@ __kernel	void	calc_fractal(__global t_stats *stats, __global int *color)
 			return ;
 		}
 		tmp = x;
-		// x = (x * x) - (y * y) + (double)stats->offxl / WIDTH;
-		// y = 2 * tmp * y + (double)stats->offyl / HEIGHT;
-		x = (x * x * x * x) - 6 * (x * x) * (y * y) + (y * y * y * y) + (double)stats->offxl / WIDTH;
-		y = 4 * (tmp * tmp * tmp) * y - 4 * tmp * (y * y * y) + (double)stats->offyl / HEIGHT;
+		x = (x * x) - (y * y) + (double)stats->offxl / WIDTH;
+		y = 2 * tmp * y + (double)stats->offyl / HEIGHT;
+		// x = (x * x * x * x) - 6 * (x * x) * (y * y) + (y * y * y * y) + (double)stats->offxl / WIDTH;
+		// y = 4 * (tmp * tmp * tmp) * y - 4 * tmp * (y * y * y) + (double)stats->offyl / HEIGHT;
 	}
 	color[i] = 0;
 }
