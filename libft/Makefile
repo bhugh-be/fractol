@@ -6,13 +6,13 @@
 #    By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/01 17:45:44 by bhugh-be          #+#    #+#              #
-#    Updated: 2019/04/20 21:04:11 by bhugh-be         ###   ########.fr        #
+#    Updated: 2019/05/17 22:33:02 by bhugh-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -O3 -Wall -Wextra -Werror
 
 SRC  = ft_atoi.c \
 		ft_bzero.c \

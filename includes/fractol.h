@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:18:48 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/14 14:57:52 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/16 19:58:06 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@ typedef struct			s_values
 	t_stats				stats;
 }						t_values;
 
+typedef struct			s_global
+{
+	void				*mlx_ptr;
+	t_values			*values;
+}
+						t_global;
 int				mouse_press(int	button, int x, int y, void				*param);
 int				mouse_release(int button, int x, int y, void			*param);
 int				key_press(int keycode, void								*param);

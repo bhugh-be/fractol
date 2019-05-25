@@ -6,13 +6,13 @@
 #    By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/24 17:26:57 by bhugh-be          #+#    #+#              #
-#    Updated: 2019/05/13 19:30:42 by bhugh-be         ###   ########.fr        #
+#    Updated: 2019/05/17 22:32:37 by bhugh-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 
-CFLAGS =  -Wall -Wextra -Werror
+CFLAGS = -O3 -Wall -Wextra -Werror
 
 LIB_MLX =  -lmlx -framework OpenGL -framework Appkit
 

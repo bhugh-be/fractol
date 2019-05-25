@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mandelbrot.c                                       :+:      :+:    :+:   */
+/*   burning_sheep.cl                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "struct.h"
-
 
 int			get_light(int start, int end, double percent)
 {
@@ -23,7 +22,7 @@ double		fpart(double n)
 	return (n - floor(n));
 }
 
-int		gradient_color(__global t_stats *stats, double x, double y, double i)
+int		gradient_color(__global t_stats *stats, double x, double y, int i)
 {
 	double	log_zn;
 	double	nu;
@@ -33,17 +32,18 @@ int		gradient_color(__global t_stats *stats, double x, double y, double i)
 	log_zn = log(x * x + y * y) / 2;
 	nu = log(log_zn / log(2.0)) / log(2.0);
 	i = i + 1 - nu;
-	color1 = stats->colors[(int)floor(i)];
-	color2 = stats->colors[(int)floor(i) + 1];
-	int blue = get_light(color1 & 255, color2 & 255, fpart(i));
-	int green = get_light(color1 >> 8 & 255, color2 >> 8 & 255, fpart(i));
-	int red = get_light(color1 >> 16 & 255, color2 >> 16 & 255, fpart(i));
+	color1 = stats->colors[i % 3];
+	color2 = stats->colors[(i + 1) % 3];
+	double j = 1 - nu;
+	int blue = get_light(color1 & 255, color2 & 255, fpart(j));
+	int green = get_light(color1 >> 8 & 255, color2 >> 8 & 255, fpart(j));
+	int red = get_light(color1 >> 16 & 255, color2 >> 16 & 255, fpart(j));
 	return((red << 16) | (green << 8) | blue);
 }
 
-int			light_color(__global t_stats *stats, double i)
+int			light_color(__global t_stats *stats, int i)
 {
-	return ((i / stats->iter) * 255);
+	return (((double)i / stats->iter) * 255);
 }
 
 int			get_color(__global t_stats *stats, double ix, double iy)
@@ -54,7 +54,7 @@ int			get_color(__global t_stats *stats, double ix, double iy)
 	double	y = cy;
 	double	tmp;
 
-	for (double i = 0; i < stats->iter; ++i)
+	for (int i = 0; i < stats->iter; ++i)
 	{
 		if ((sqrt((x * x) + (y * y))) >= MODULE)
 		{
@@ -65,8 +65,9 @@ int			get_color(__global t_stats *stats, double ix, double iy)
 			if (stats->color == 3)
 				return (gradient_color(stats, x, y, i));
 		}
-		x = (x * x * x * x) - 6 * (x * x) * (y * y) + (y * y * y * y) + cx;
-		y = 4 * (x * x * x) * y - 4 * x * (y * y * y) + cy;
+		tmp = x;
+		x = (x * x) - (y * y) + cx;
+		y = 2 * (tmp < 0 ? -tmp : tmp) * (y < 0 ? -y : y) + cy;
 	}
 	return(0);
 }

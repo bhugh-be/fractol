@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:17:01 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/14 21:51:16 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/23 19:13:29 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ void			set_default(t_values *values)
 	values->stats.scale = 1;
 	values->stats.offx = 0;
 	values->stats.offy = 0;
-	values->stats.offxl = 745;
-	values->stats.offyl = 683;
-	values->stats.iter = 30;
-	values->stats.color = 1;
+	values->stats.offxl = -412;
+	values->stats.offyl = 745;
+	values->stats.iter = 100;
+	values->stats.color = 3;
+	values->stats.smooth = 0;
 }
 
-t_values		*initialize()
+void			initialize(t_values *values, char *f_name, void *mlx_ptr)
 {
-	t_values	*values;
-	int			i;
-
-	values = (t_values *)ft_memalloc(sizeof(t_values));
-	values->mlx_ptr = mlx_init();
+	f_name = ft_strjoin("srcs/", f_name, 0);
+	f_name = ft_strjoin(f_name, ".cl", 1);
+	if ((values->fd = open(f_name, O_RDONLY)) == -1)
+		ft_die("fractal is huita");
+	values->mlx_ptr = mlx_ptr;
 	values->win_ptr = mlx_new_window(values->mlx_ptr, WIDTH, HEIGHT, WIN_NAME);
 	values->img_ptr = mlx_new_image(values->mlx_ptr, WIDTH, HEIGHT);
 	values->img_data = mlx_get_data_addr(values->img_ptr,
@@ -39,16 +40,9 @@ t_values		*initialize()
 	mlx_hook(values->win_ptr, 5, 0, mouse_release, values);
 	mlx_hook(values->win_ptr, 6, 0, mouse_move, values);
 	mlx_hook(values->win_ptr, 17, 0, close_win, values);
-	i = 0;
-	while (i < 999)
-	{
-		values->stats.colors[i + 0] = 0x1B032C;
-		values->stats.colors[i + 1] = 0xEBEB7D;
-		values->stats.colors[i + 2] = 0x3F576D;
-		// values->stats.colors[i + 3] = 0xD3BE9F;
-		i += 3;
-	}
-	return (values);
+	values->stats.colors[0] = 0x1B032C;
+	values->stats.colors[1] = 0xEBEB7D;
+	values->stats.colors[2] = 0x3F576D;
 }
 
 void			draw(t_values *values)
@@ -59,20 +53,28 @@ void			draw(t_values *values)
 		values->img_ptr, 0, 0);
 }
 
-int			main(int ac, char **av)
+int				main(int ac, char **av)
 {
-	t_values	*values;
-	char		*path;
+	t_global	global;
+	int			i;
 
-	if (ac != 2)
-		ft_die("usage: fractol mandelbrot | julia");
-	path = ft_strjoin("srcs/", av[1], 0);
-	path = ft_strjoin(path, ".cl", 1);
-	values = initialize();
-	if ((values->fd = open(path, O_RDONLY)) == -1)
-		ft_die("fractal is huita");
-	opencl_init(values);
-	set_default(values);
-	draw(values);
-	return (mlx_loop(values->mlx_ptr));
+	if (ac < 2)
+		ft_die("usage: fractol mandelbrot2 | mandelbrot4 | julia2 | julia4 | burning_ship | biomorph [...]");
+	global.values = (void *)ft_memalloc(sizeof(t_values) * (ac - 1));
+	global.mlx_ptr = mlx_init();
+	i = 0;
+	while (i < ac - 1)
+	{
+	printf("p0: %p\n", &global.values[i]);
+		initialize(&global.values[i], av[i + 1], global.mlx_ptr);
+	printf("p1: %p\n", &global.values[i]);
+	printf("fd : %d\n", global.values[i].fd);
+		printf("%p : %p \n", global.values[i].mlx_ptr, global.values[i].win_ptr);
+		opencl_init(&global.values[i]);
+		printf("%p : %p \n", global.values[i].mlx_ptr, global.values[i].win_ptr);
+		set_default(&global.values[i]);
+		draw(&global.values[i]);
+		i++;
+	}
+	return (mlx_loop(global.values->mlx_ptr));
 }

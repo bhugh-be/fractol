@@ -6,12 +6,11 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 17:19:55 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/14 19:34:34 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/23 19:31:52 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <errno.h>
 
 #define MAX_SRC_SIZE 100000
 
@@ -56,7 +55,7 @@ void			opencl_calc(t_values *values)
 {
 	cl_int	ret;
 	size_t global_item_size = WIDTH * HEIGHT;
-	size_t local_item_size = 30;
+	size_t local_item_size = 256;
 
 	ret = clEnqueueWriteBuffer(values->cl.command_queue, values->cl.s_mem_obj, CL_TRUE, 0,
 		sizeof(t_stats), &values->stats, 0, NULL, NULL);
