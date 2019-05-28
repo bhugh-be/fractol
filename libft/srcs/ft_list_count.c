@@ -6,21 +6,21 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/06 23:16:05 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/04/06 23:26:51 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:18:42 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int             ft_list_count(t_list *begin)
+int		ft_list_count(t_list *begin)
 {
-    int         i;
+	int i;
 
-    i = 0;
-    while (begin)
-    {
-        begin = begin->next;
-        i++;
-    }
-    return (i);
+	i = 0;
+	while (begin)
+	{
+		begin = begin->next;
+		i++;
+	}
+	return (i);
 }

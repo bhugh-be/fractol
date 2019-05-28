@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 20:24:02 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/14 16:50:00 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/28 14:01:06 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,15 @@ size_t				ft_sqrt(size_t num);
 int					ft_max_elem(int arr[], int size);
 int					get_next_line(const int fd, char **line);
 void				ft_swap_double(double *x, double *y);
-t_list              *ft_list_new(void *data);
-void          		ft_list_add(t_list **begin, void *data);
-int             	ft_list_count(t_list *begin);
+t_list				*ft_list_new(void *data);
+void				ft_list_add(t_list **begin, void *data);
+int					ft_list_count(t_list *begin);
 void				ft_list_free(t_list *begin, void (*f)(void *));
 int					ft_atoi_base(char *str, int	base);
 int					ft_vector_len(char **s);
-long int         	ft_die(char *error);
-long int            ft_max(long int a, long int b);
-long int            ft_min(long int a, long int b);
+long int			ft_die(char *error);
+long int			ft_max(long int a, long int b);
+long int			ft_min(long int a, long int b);
 double				round(double n);
 double				ipart(double n);
 double				fpart(double n);

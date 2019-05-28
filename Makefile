@@ -6,7 +6,7 @@
 #    By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/24 17:26:57 by bhugh-be          #+#    #+#              #
-#    Updated: 2019/05/17 22:32:37 by bhugh-be         ###   ########.fr        #
+#    Updated: 2019/05/28 14:15:37 by bhugh-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,9 @@ LIB_PATH = ./libft
 LIB = ./libft/libft.a
 
 SRC  =	fractol.c\
-		hooks.c\
+		mousehooks.c\
+		keyhooks.c\
 		cl_open.c\
-
 
 INCLUDES = -I ./includes -I ./libft/includes
 

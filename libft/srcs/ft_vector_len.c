@@ -6,15 +6,15 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 04:44:03 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/04/07 04:44:57 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:25:10 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int         ft_vector_len(char **str)
+int			ft_vector_len(char **str)
 {
-	int     i;
+	int		i;
 
 	i = 0;
 	while (str[i])
