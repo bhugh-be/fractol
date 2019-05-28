@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/08 17:19:55 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/28 14:04:19 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/28 15:40:15 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void			opencl_calc(t_values *values)
 	clEnqueueNDRangeKernel(values->cl.command_queue, values->cl.kernel, 1,
 		NULL, &global_item_size, &local_item_size, 0, NULL, NULL);
 	clEnqueueReadBuffer(values->cl.command_queue, values->cl.c_mem_obj,
-		CL_TRUE, 0, (WIDTH * HEIGHT) * sizeof(int),
-		values->img_data, 0, NULL, NULL);
+		CL_TRUE, 0, (WIDTH * HEIGHT) * sizeof(int), values->img_data,
+		0, NULL, NULL);
 }
 
 void			opencl_free(t_values *values)

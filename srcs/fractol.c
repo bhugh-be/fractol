@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/24 18:17:01 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/28 15:16:59 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/28 15:59:31 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int				initialize(t_values *values, char *f_name, t_global *global)
 	{
 		ft_putstr("no such file: ");
 		ft_putendl(f_name);
+		global->open_win--;
 		return (1);
 	}
 	free(f_name);
@@ -71,18 +72,16 @@ int				main(int ac, char **av)
 	global.values = (t_values *)ft_memalloc(sizeof(t_values) * (ac - 1));
 	global.mlx_ptr = mlx_init();
 	global.open_win = ac - 1;
-	i = 0;
-	while (i < ac - 1)
+	i = -1;
+	while (++i < ac - 1)
 	{
 		if (initialize(&global.values[i], av[i + 1], &global))
-		{
-			i++;
 			continue ;
-		}
 		opencl_init(&global.values[i]);
 		set_default(&global.values[i]);
 		draw(&global.values[i]);
-		i++;
 	}
+	if (!global.open_win)
+		exit(0);
 	return (mlx_loop(global.mlx_ptr));
 }

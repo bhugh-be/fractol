@@ -6,7 +6,7 @@
 /*   By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/23 20:24:02 by bhugh-be          #+#    #+#             */
-/*   Updated: 2019/05/28 14:01:06 by bhugh-be         ###   ########.fr       */
+/*   Updated: 2019/05/28 15:24:58 by bhugh-be         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
 

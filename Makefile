@@ -6,13 +6,13 @@
 #    By: bhugh-be <bhugh-be@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/24 17:26:57 by bhugh-be          #+#    #+#              #
-#    Updated: 2019/05/28 14:15:37 by bhugh-be         ###   ########.fr        #
+#    Updated: 2019/05/28 15:25:45 by bhugh-be         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 
-CFLAGS = -O3 -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 LIB_MLX =  -lmlx -framework OpenGL -framework Appkit
 
@@ -45,11 +45,11 @@ $(OBJ_DIR)/%.o:$(SRC_DIR)/%.c
 
 $(NAME): $(OBJ)
 			@make -C $(LIB_PATH)
-			@gcc  -g $(CFLAGS) $(OBJ) $(LIB) -o $(NAME) $(INCLUDES) $(LIB_MLX) $(LIB_OPENCL)
+			@gcc $(CFLAGS) $(OBJ) $(LIB) -o $(NAME) $(INCLUDES) $(LIB_MLX) $(LIB_OPENCL)
 
 clean:
 			@make clean -C $(LIB_PATH)
-			@rm -f $(OBJ)
+			@rm -rf $(OBJ_DIR)
 
 fclean: clean
 			@make fclean -C $(LIB_PATH)
